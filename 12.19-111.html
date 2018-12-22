@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<title>  Vue - Day 1 </title>
+	<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="css/index.css">
+	<!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" rel="stylesheet"> -->
+	<script src="https://vuejs.org/js/vue.js"></script>
+</head>
+<body>
+	<div class="container" id="box">
+		<div class="row">
+			<div class="col-md-8 offset-md-2">
+				<div class="input-group mb-3">
+					<div class="input-group-prepend">
+						<span class="input-group-text">站名</span>
+					</div>
+					<input type="text" class="form-control" placeholder="name" aria-describedby="basic-addon1" v-model="typeClass.Name" id="name">
+				</div>
+				<div class="input-group mb-3">
+					<div class="input-group-prepend">
+						<span class="input-group-text">地址</span>
+					</div>
+					<input type="text" class="form-control" placeholder="url" aria-describedby="basic-addon1" v-model="typeClass.Url">
+				</div>
+				<div class="input-group mb-3">
+					<div class="input-group-prepend">
+						<div class="input-group-text">
+						<input type="checkbox" aria-label="Checkbox for following text input" v-model="typeClass.Target">
+						</div>
+					</div>
+					<input type="text" class="form-control" placeholder="从新页面打开" aria-label="Text input with checkbox" disabled>
+				</div>
+				<button type="button" @click='add()' class="btn btn-primary btn-block">提交</button>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-md-12">
+					<table class="table table-hover">
+						<thead>
+							<tr>
+							<th scope="col">序号</th>
+							<th scope="col">站名</th>
+							<th scope="col">网址</th>
+							<th scope="col">操作</th>
+							</tr>
+						</thead>
+
+						<tbody>
+							<tr v-for="(value,key) in links" track-by="key">
+								<th scope="row">{{key}}</th>
+								<td>{{value.name}}</td>
+								<td><a :href="value.url" :target="value.target==true?'_blank':''">{{value.url}}</td>
+								<td><button data-toggle="modal" data-target="#delete" class="btn btn-sm btn-danger" @click='index=key'>删除</button></td>
+							</tr>
+							<tr v-show="links.length?false:true">
+								<td colspan="4">空空如也</td>
+							</tr>
+							<tr v-show="links.length?true:false">
+								<td colspan="4"><button data-toggle="modal" data-target="#ADelete" class="btn btn-sm btn-danger" >全部删除</button></td>
+							</tr>
+						</tbody>
+					</table>
+			</div>
+		</div>
+
+		<!-- 删除 -->
+		<div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">警告</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<p>确认删除内容？</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" data-dismiss="modal" class="btn btn-primary"  @click="Delete">确认</button>
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+				</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- 全部删除 -->
+		<div class="modal fade" id="ADelete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">警告</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<p>确认删除全部内容？</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" data-dismiss="modal" class="btn btn-primary"  @click="ADelete">全部删除</button>
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+				</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+
+	<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+	<script src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+	<script src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+	<script>
+		let vue = new Vue({
+           el:"#box",
+           data:{
+              index:0,
+              typeClass:{
+                  Name:"",
+                  Url:"",
+                  Target:true,
+              },
+              links:[]
+           },
+           methods:{
+              add:function(){
+                 this.links.push({
+                    name:this.typeClass.Name,
+                    url:this.typeClass.Url,
+                    target:this.typeClass.Target
+                 })
+              },
+              Delete:function(){
+                  this.links.splice(this.index,1)
+              },
+              ADelete:function(){
+                  this.links = [];
+              }
+           }
+       })
+	</script>
+</body>
+</html>

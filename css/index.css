@@ -1,0 +1,59 @@
+/*All*/
+body,div,ul,li,ol,dl,dd,dt,input,form,button,img,p,h1,h2,h3,h4,h5,h6,textarea{
+	margin: 0;
+	padding: 0;
+	/* transition: all 600ms; */
+}
+body{
+	font-size: 12px;
+	font-family: 微软雅黑;
+}
+img{
+	border: none;
+	vertical-align: middle;
+}
+li,ol{
+	list-style: none;
+}
+input,select,textarea,button{
+	outline: none;
+	border: none;
+}
+a{
+	text-decoration: none;
+}
+
+/*清除浮动*/
+.clearfix:after{
+	content: '';
+	display: block;
+	clear: both;
+}
+.clearfix{
+	zoom:1;
+}
+
+/*盒子*/
+.all{
+	margin: 0 auto;
+	max-width: 1920px;
+	min-width: 1200px;
+}
+.com{
+	width: 1140px;
+	margin: 0 auto;
+}
+.fl{
+	float: left;
+}
+.fr{
+	float: right;
+}
+
+.row{
+	padding-top: 50px;
+}
+
+input{
+	border: 1px solid #000;
+}
